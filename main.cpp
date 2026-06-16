@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int playerHp = 1000; // 플레이어 현재 체력
 	int playerRecovery = 1; // 플레이어 회복력
 	int playerPower = 1; // 플레이어 데미지
-	int playerCost = 30; // 공격시 체력 손실
+	int playerCost = 50; // 공격시 체력 손실
 
 	int playerAttackCoolTime = 10; // 공격 쿨타임
 
@@ -61,7 +61,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// ↓플레이어
 
-		if (keys[DIK_SPACE] && playerHp > playerCost) { // 버튼을 누르면
+		if (keys[DIK_SPACE] && playerHp > playerCost && isDummyAlive) { // 버튼을 누르면
 			isPlayerAttacking = true; // 플레이어 공격 개시
 			if (isPlayerAttacking) {
 				playerAttackCoolTime--;
@@ -80,7 +80,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (!isPlayerAttacking) { // 쿨타임 초기화
 			playerAttackCoolTime = 10;
 		}
-		if (playerHp < playerFullHp && isPlayerAttacking == false) { // 공격시가 아닐 경우 HP 회복
+		if (playerHp < playerFullHp) { // HP 회복
 			playerHp += playerRecovery;
 		}
 		// ↑플레이어
@@ -89,7 +89,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		if (isDummyAlive && dummyHp <= 0) { // 더미가 hp가 0이 되면
 			isDummyAlive = false;
-			gold = +1;
+			gold += 1;
 		}
 		if (!isDummyAlive) { // 더미가 죽으면 
 			dummyReviveCoolTime--;
@@ -121,7 +121,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::ScreenPrintf(dummyPosX + dummyWidth / 4, dummyPosY - 50, "%d", dummyHp);
 
 		//데이터 확인용
-		
+
 		// 공격 중인지 아닌지
 		if (isPlayerAttacking) {
 			Novice::ScreenPrintf(10, 10, "ATTACK");
@@ -130,7 +130,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Novice::ScreenPrintf(10, 10, "NOT ATTACK");
 		}
 		//자원
-		Novice::ScreenPrintf(10, 30, "GOLD : %d",gold);
+		Novice::ScreenPrintf(10, 30, "GOLD : %d", gold);
 		//부활타이머
 		Novice::ScreenPrintf(10, 50, "DummyReviveCoolTime : %d", dummyReviveCoolTime);
 		//
